@@ -35,7 +35,3 @@ button {
   border-radius: 7px;
   cursor: pointer;
 }
-
-a:visited {
-  text-decoration: none;
-}

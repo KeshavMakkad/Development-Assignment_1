@@ -1,6 +1,13 @@
+const toggleButtonsState = () => {
+  const btns = document.querySelectorAll(".quiz-option");
+  btns.forEach((btn) => {
+    btn.disabled = !btn.disabled;
+  });
+};
+
 export default function startGame(quizData) {
   const questionText = document.querySelector(".quiz-question-text");
-  const options = document.querySelectorAll(".quiz-option-text");
+  const options = document.querySelectorAll(".quiz-option");
   const quizContainer = document.querySelector(".quiz-question-container");
   const progressText = document.querySelector(".progress-text");
   const progressBarFill = document.querySelector(".progress-bar-fill");
@@ -8,10 +15,11 @@ export default function startGame(quizData) {
 
   let score = 0;
   const totalQuestions = quizData.length;
+  // const totalQuestions = 1;
   let currentQuestionNumber = 0;
 
   options.forEach((option) => {
-    option.addEventListener("click", (e) => checkAnswer(e));
+    option.addEventListener("click", (e) => checkAnswer(option.children[1]));
   });
 
   loadQuestion();
@@ -33,9 +41,9 @@ export default function startGame(quizData) {
     const currOptions = currQuestion.options;
 
     for (let i = 0; i < options.length; i++) {
-      options[i].textContent = currOptions[i];
-      options[i].style.backgroundColor = "white";
-      options[i].style.color = "black";
+      options[i].children[1].textContent = currOptions[i];
+      options[i].children[1].style.backgroundColor = "white";
+      options[i].children[1].style.color = "black";
     }
 
     quizContainer.dataset.currQuestionIndex = currQuestionIndex;
@@ -44,20 +52,23 @@ export default function startGame(quizData) {
   function checkAnswer(e) {
     const currQuestionIndex = quizContainer.dataset.currQuestionIndex;
     const currQuestion = quizData[currQuestionIndex];
-    const selectedOption = e.target.textContent;
+    const selectedOption = e.textContent;
 
     if (selectedOption === currQuestion.correctAnswer) {
       score += 10;
-      e.target.style.backgroundColor = "green";
-      e.target.style.color = "white";
+      e.style.backgroundColor = "green";
+      e.style.color = "white";
     } else {
-      e.target.style.backgroundColor = "red";
-      e.target.style.color = "white";
+      e.style.backgroundColor = "red";
+      e.style.color = "white";
     }
 
     scoreText.textContent = `Score: ${score}`;
     quizData.splice(currQuestionIndex, 1);
+
+    toggleButtonsState();
     setTimeout(() => {
+      toggleButtonsState();
       loadQuestion();
     }, 1000);
   }
@@ -76,7 +87,11 @@ export default function startGame(quizData) {
     quizContainer.innerHTML = `
       <div class="quiz-end">
         <h2>Quiz Completed!</h2>
-        <p>Your score is ${score} out of ${totalQuestions * 10}</p>
+        <p>Your score is ${score} out of ${totalQuestions}</p>
+        <div class="end-buttons">
+          <button onclick="window.location='./../index.html'" class = "end-button">Home</button>
+          <button onclick="window.location='./quiz.html'" class = "end-button">Restart</button>
+        </div>
       </div>
     `;
   }

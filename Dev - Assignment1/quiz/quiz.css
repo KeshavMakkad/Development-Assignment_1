@@ -100,3 +100,18 @@
   background-color: white;
   padding-left: 0.5rem;
 }
+
+.quiz-end {
+  text-align: center;
+}
+
+.end-button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  color: blue;
+  background-color: white;
+  border: 2px solid blue;
+  border-radius: 7px;
+  cursor: pointer;
+}
