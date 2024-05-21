@@ -40,6 +40,8 @@
   border: 2px solid rgb(116, 114, 187);
   border-radius: 7px;
   overflow: hidden;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 .quiz-option-number {
